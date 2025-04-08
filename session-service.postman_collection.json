@@ -47,6 +47,19 @@
 					"response": []
 				},
 				{
+					"name": "Google OAuth Login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/google",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "google"]
+						},
+						"description": "Initiate Google OAuth login flow"
+					}
+				},
+				{
 					"name": "Logout",
 					"request": {
 						"method": "POST",
@@ -145,6 +158,228 @@
 						"description": "Invalidate all active sessions for the current user"
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "profile"]
+						},
+						"description": "Get current user's profile information"
+					}
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "profile"]
+						},
+						"description": "Update current user's profile information"
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currentPassword\": \"oldpassword\",\n    \"newPassword\": \"newpassword\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/change-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "change-password"]
+						},
+						"description": "Change user's password"
+					}
+				},
+				{
+					"name": "List All Users (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "List all users (admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Portal Management",
+			"item": [
+				{
+					"name": "Create Portal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Example Portal\",\n    \"domain\": \"https://portal.example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/portals",
+							"host": ["{{baseUrl}}"],
+							"path": ["portals"]
+						},
+						"description": "Create a new portal (admin only)"
+					}
+				},
+				{
+					"name": "List All Portals",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/portals",
+							"host": ["{{baseUrl}}"],
+							"path": ["portals"]
+						},
+						"description": "List all active portals"
+					}
+				},
+				{
+					"name": "Get My Portals",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/portals/my",
+							"host": ["{{baseUrl}}"],
+							"path": ["portals", "my"]
+						},
+						"description": "Get list of portals the user has joined"
+					}
+				},
+				{
+					"name": "Join Portal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/portals/join/{{portalId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["portals", "join", "{{portalId}}"]
+						},
+						"description": "Join a portal"
+					}
+				},
+				{
+					"name": "Leave Portal",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/portals/leave/{{portalId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["portals", "leave", "{{portalId}}"]
+						},
+						"description": "Leave a portal"
+					}
+				},
+				{
+					"name": "Update Portal",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Portal Name\",\n    \"domain\": \"https://updated.example.com\",\n    \"status\": \"active\",\n    \"settings\": {\n        \"theme\": \"dark\",\n        \"features\": [\"chat\", \"notifications\"]\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/portals/{{portalId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["portals", "{{portalId}}"]
+						},
+						"description": "Update portal settings (admin only)"
+					}
 				}
 			]
 		}
