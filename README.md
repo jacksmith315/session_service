@@ -12,11 +12,15 @@ A secure session management service built with Node.js and Redis that enables sh
 - Session validation and cleanup
 - Cookie-based token storage for web clients
 - API token support for non-web clients
+- User management with profiles
+- Portal management and access control
+- User-Portal relationship tracking
 
 ## Prerequisites
 
 - Node.js 16+
 - Redis 6+
+- PostgreSQL 12+
 - npm or yarn
 
 ## Installation
@@ -31,6 +35,10 @@ A secure session management service built with Node.js and Redis that enables sh
    cp .env.example .env
    ```
 4. Update the environment variables in `.env`
+5. Initialize the database:
+   ```bash
+   npx sequelize-cli db:migrate
+   ```
 
 ## Configuration
 
@@ -43,6 +51,7 @@ Update the following variables in your `.env` file:
 - `ALLOWED_ORIGINS`: Comma-separated list of allowed portal origins
 - `GOOGLE_CLIENT_ID`: Google OAuth client ID (if using Google authentication)
 - `GOOGLE_CLIENT_SECRET`: Google OAuth client secret (if using Google authentication)
+- `DATABASE_URL`: PostgreSQL connection URL
 
 ### Environment Variables Security
 
@@ -81,6 +90,51 @@ npm start
 - `GET /session/status`: Get current session status
 - `POST /session/extend`: Extend current session
 - `DELETE /session/invalidate-all`: Invalidate all active sessions
+
+### User Management
+
+- `GET /users/profile`: Get current user's profile
+- `PUT /users/profile`: Update user profile
+- `PUT /users/change-password`: Change user password
+- `GET /users`: List all users (admin only)
+
+### Portal Management
+
+- `POST /portals`: Create new portal (admin only)
+- `GET /portals`: List all active portals
+- `GET /portals/my`: List user's joined portals
+- `POST /portals/join/:portalId`: Join a portal
+- `DELETE /portals/leave/:portalId`: Leave a portal
+- `PUT /portals/:portalId`: Update portal settings (admin only)
+
+## Database Schema
+
+### Users
+- id (UUID)
+- email (unique)
+- password (hashed)
+- firstName
+- lastName
+- status
+- lastLogin
+- googleId (for OAuth)
+
+### Portals
+- id (UUID)
+- name
+- domain (unique)
+- status
+- apiKey
+- settings (JSON)
+
+### UserPortals
+- id (UUID)
+- userId (FK)
+- portalId (FK)
+- role
+- status
+- lastAccess
+- preferences (JSON)
 
 ## Integration with Portals
 
