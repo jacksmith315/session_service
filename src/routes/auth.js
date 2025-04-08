@@ -8,18 +8,18 @@ const router = express.Router();
 
 router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     
     // Here you would typically validate credentials against your user database
     // This is a placeholder for demonstration
-    if (!username || !password) {
-      return res.status(400).json({ message: 'Username and password are required' });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
     }
 
     const sessionId = uuidv4();
     const userData = {
       id: 1, // This would come from your user database
-      username,
+      email,
       roles: ['user'],
       sessionId
     };
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
       message: 'Login successful',
       token,
       user: {
-        username: userData.username,
+        email: userData.email,
         roles: userData.roles
       }
     });
