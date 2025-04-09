@@ -77,6 +77,60 @@ Production mode:
 npm start
 ```
 
+## Docker Setup
+
+The project can be run using Docker and Docker Compose, which provides containerized environments for the backend service, frontend portals, and required infrastructure.
+
+### Prerequisites for Docker Setup
+
+- Docker and Docker Compose installed on your system
+- Git repository cloned locally
+
+### Running with Docker Compose
+
+1. **Build and start all services:**
+   ```bash
+   docker-compose up --build
+   ```
+   This will build and start the following services:
+   - Backend API server on port 3000
+   - Portal A on port 3001
+   - Portal B on port 3002
+   - Portal C on port 3003
+   - Redis for session management
+   - PostgreSQL database
+
+2. **Access the services:**
+   - Backend API: http://localhost:3000
+   - Portal A: http://localhost:3001
+   - Portal B: http://localhost:3002
+   - Portal C: http://localhost:3003
+
+3. **Initialize the database (first time only):**
+   After the containers are running, execute migrations:
+   ```bash
+   docker-compose exec backend npx sequelize-cli db:migrate
+   ```
+
+4. **Stop all services:**
+   ```bash
+   docker-compose down
+   ```
+
+5. **View logs:**
+   ```bash
+   docker-compose logs -f [service_name]
+   ```
+   Where `[service_name]` can be: backend, portal-a, portal-b, portal-c, redis, or postgres
+
+### Docker Environment Configuration
+
+Docker Compose uses environment variables from your `.env` file. Ensure that the following variables are set:
+
+- `DATABASE_URL`: Will be automatically set for the containerized service
+- `REDIS_URL`: Will be automatically set for the containerized service
+- `ALLOWED_ORIGINS`: Should include `http://localhost:3001,http://localhost:3002,http://localhost:3003`
+
 ## API Endpoints
 
 ### Authentication
