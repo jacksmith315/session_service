@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { AuthContextType, User, AuthState } from '../types/auth';
+import { AuthContextType, AuthState } from '../types/auth';
 import Cookies from 'js-cookie';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -1,0 +1,16 @@
+.git
+.gitignore
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose.yml
+.env
+*.env
+README.md
+DEVELOPMENT.md
+session_portals/portal-*/node_modules
+session_portals/portal-*/dist
+session_portals/portal-*/.env*
+session_portals/portal-*/.git*
+session-service.postman_collection.json
+session-service.postman_environment.json
